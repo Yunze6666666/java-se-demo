@@ -43,7 +43,7 @@ abstract class GameCharacter {
         System.out.println(name+"结束回合，剩余Hp："+hp);
     }
 }
-/**抽象类可以有构造器，供子类调用
- *抽象方法只能用 public 或 protected 修饰
- * 如果子类也是抽象类，可以暂时不实现父类的抽象方法，交给更下一层的子类去实现
+/*抽象类可以有构造器，供子类调用
+ 抽象方法只能用 public 或 protected 修饰
+ 如果子类也是抽象类，可以暂时不实现父类的抽象方法，交给更下一层的子类去实现
  */
