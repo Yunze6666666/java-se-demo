@@ -1,0 +1,5 @@
+package com.demo.genericDemo;
+
+public interface Converter<S,T> {
+    T convert(S source);
+}
