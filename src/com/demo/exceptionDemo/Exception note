@@ -1,0 +1,42 @@
+异常本质:
+Java 中异常全部是对象，发生错误时 JVM 会 new 一个异常对象，里面包含：错误类型、错误信息、堆栈报错行号。
+控制台红色一大串，就是打印这个异常对象的信息。
+
+
+Throwable（所有异常的祖宗）
+├── Error（错误）：JVM 层面的严重问题，程序通常处理不了
+│   ├── OutOfMemoryError（内存溢出）
+│   └── StackOverflowError（栈溢出，比如死递归）
+│
+└── Exception（异常）：程序逻辑可以处理的问题
+    ├── RuntimeException（运行时异常 / 非受检异常）：编译器不强制你处理
+    │   ├── NullPointerException（空指针）
+    │   ├── ArrayIndexOutOfBoundsException（数组越界）
+    │   ├── NumberFormatException（数字格式错误）
+    │   └── ArithmeticException（除以零）
+    │
+    └── 其他 Exception(受检异常(编译时异常 ) Checked Exception)：编译器强制你处理
+        ├── IOException（IO 错误，比如文件找不到）
+        ├── SQLException（数据库错误）
+        └── FileNotFoundException（文件不存在）
+
+
+        |           | 受检异常（Checked）            | 非受检异常（Unchecked）                                     |
+        | --------- | ----------------------------- | -------------------------------------------------------- |
+        | 代表    | `IOException`, `SQLException`    | `NullPointerException`, `ArrayIndexOutOfBoundsException` |
+        | 编译器态度 | ❗ 必须处理，否则编译报错           | 不强制处理，运行时才可能暴露                                           |
+        | 出现时机 | 通常是外部资源问题（文件、网络、数据库）  | 通常是代码逻辑 bug                                              |
+        | 处理方式 | `try-catch` 或 `throws`            | 尽量通过完善代码逻辑避免                                             |
+受检异常 vs 运行时异常
+继承Exception：受检异常，方法上必须写throws，调用方必须捕获处理；
+继承RuntimeException：运行时异常，可以不写 throws，可捕获可不捕获。
+
+重要规则：子类异常在前，父类异常在后
+
+try 块中，只要某一行抛出异常，try 剩余代码直接终止。
+
+规范：先捕获业务自定义异常，再捕获 JDK 自带异常。更重要：如果以后加通用Exception兜底，必须放最后。
+
+当方法写了throws BalanceNotEnoughException，调用这个方法的代码，只有两条路二选一，必须处理，不能假装看不见：
+方案 A：调用处使用try‑catch把异常捕获吃掉
+方案 B：调用的方法继续往上抛，自己也加上throws BalanceNotEnoughException，把风险继续甩给上层调用

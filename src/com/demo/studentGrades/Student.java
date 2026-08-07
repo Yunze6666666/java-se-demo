@@ -44,6 +44,7 @@ public class Student {
     public void setScore(double score) {
         this.score = score;
     }
+
     public void showInfo(){
         System.out.println("姓名:"+name+",年龄:"+age+",成绩:"+score+",学校:"+school);
     }//方法，用来打印姓名、年龄、成绩、学校。注意在打印过程中System.out.println() 只支持 1 个参数，不能传入多个逗号隔开的值
