@@ -4,7 +4,12 @@ public class StringToIntConverter implements Converter<String,Integer> {
 
     @Override
     public Integer convert(String source) {
-        int num=Integer.parseInt(source);
-        return num;
+        try {
+            int num=Integer.parseInt(source);
+            return num;
+        } catch (NumberFormatException e) {
+           return -1;
+        }
+
     }
 }
